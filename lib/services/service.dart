@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:appmuscuui/models/exercice.dart';
+import 'package:appmuscuui/models/allSeances.dart';
 
 class CounterStorage {
   Future<String> get _localPath async {
@@ -13,52 +13,25 @@ class CounterStorage {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    // print('path: $path');
+    print('path: $path');
     return File('$path/training.json');
   }
 
-  Future<File> writeJson(String json) async {
+  Future<File> writeJson(String titre, String desc, List<Exos> exos) async {
     final file = await _localFile;
 
+    var map =
+        jsonEncode(AllSeances(titre: titre, description: desc, exos: exos));
+
     if (await file.exists() && await file.readAsString() != '') {
-      // Read the file
-      final contents = await file.readAsString();
-      var test = jsonDecode(contents);
+      var content = await file.readAsString();
+      // enlever le dernier caractère
+      content = content.substring(0, content.length - 1);
 
-      print('test:');
-      print(test);
-      print('json:');
-      print(json);
-
-      var jsonFinal = [test, json];
-
-      // print('json: $json');
-
-      // // print(json);
-      // print('test: $test');
-
-      // return a json object
-      // var jsonFile = jsonDecode(contents);
-
-      // jsonFile += json;
-
-      // print('jsonFile: $jsonFile');
-
-      // ajouter le json dans le fichier json existant
-
-      // Write the file
-      return file.writeAsString(jsonEncode(jsonFinal));
+      return file.writeAsString('$content,$map]');
     }
 
-    // Write the file
-    return file.writeAsString(json);
-
-// rajouter un json dans le fichier json existant ou créer un fichier json si il n'existe pas encore et y ajouter le json
-
-    // final file = await _localFile;
-
-    // // Write the file
-    // return file.writeAsString(json);
+    return file.writeAsString('[$map]');
   }
 
   Future<Object> readCounter() async {
@@ -77,27 +50,5 @@ class CounterStorage {
 
       return json.encode({});
     }
-  }
-
-  Future<File> addJson(
-      String title, String description, List<Exercice?> exercices) {
-    var directory = getApplicationDocumentsDirectory();
-
-    String jsonString = jsonEncode(
-        {"title": title, "description": description, "exercices": exercices});
-
-    // afficher le json
-
-    // setState(() {
-    //   // _counter++;
-    //   jsonString = jsonEncode(
-    //       {"title": title, "description": description, "exercices": exercices});
-
-    //   print(jsonString);
-    // });
-
-    // Write the variable as a string to the file.
-    // return widget.storage.writeCounter(_counter);
-    return writeJson(jsonString);
   }
 }

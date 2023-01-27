@@ -186,8 +186,8 @@ class _NewTrainigState extends State<NewTrainig> {
                               // print(
                               //     'description : ${descriptionController.text}');
                               // Process data.
-                              CounterStorage().addJson(titreController.text,
-                                  descriptionController.text, []);
+                              CounterStorage().writeJson(titreController.text,
+                                  descriptionController.text, List.empty());
                               // print(titreController.text);
                             }
                           },
