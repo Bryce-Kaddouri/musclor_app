@@ -49,6 +49,8 @@ class _NewTrainigState extends State<NewTrainig> {
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               padding: const EdgeInsets.all(20),
               child: Form(
+                // dismiss keyboard when form is submitted
+
                 // onWillPop: () async {
                 //   return true;
                 // },
@@ -173,6 +175,8 @@ class _NewTrainigState extends State<NewTrainig> {
                               setState(() {
                                 titreController.clear();
                                 descriptionController.clear();
+                                // dismiss keyboard when form is submitted
+                                FocusScope.of(context).unfocus();
                               });
                             },
                             child: Row(
@@ -212,6 +216,9 @@ class _NewTrainigState extends State<NewTrainig> {
                                   titreController.clear();
                                   descriptionController.clear();
                                 });
+
+                                // dismiss keyboard when form is submitted
+                                FocusScope.of(context).unfocus();
 
                                 // affiche un message de confirmation
                                 shoSuccessMessage(
