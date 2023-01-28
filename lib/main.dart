@@ -13,8 +13,8 @@ import 'package:appmuscuui/services/service.dart';
 
 void main() {
   runApp(MyApp(
-    storage: CounterStorage(),
-  ));
+      // storage: CounterStorage(),
+      ));
 }
 
 // classe path_provider
@@ -22,9 +22,11 @@ void main() {
 // fin classe path_provider
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key, required this.storage}) : super(key: key);
+  const MyApp({
+    Key? key,
+  }) : super(key: key);
 
-  final CounterStorage storage;
+  // final CounterStorage storage;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -53,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    widget.storage.readCounter().then((value) {
+    CounterStorage().readCounter().then((value) {
       setState(() {
         jsonString = value as String;
       });
@@ -64,7 +66,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final List<String> _titles = <String>[
       'Accueil',
-      'Training',
+      'Mes Séances',
       'Recette',
       'Profil',
       'Notification',
@@ -77,8 +79,9 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      title: 'My Training App',
+      title: 'Musclor App ',
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 60,
           title: Container(
@@ -115,8 +118,13 @@ class _MyAppState extends State<MyApp> {
           ],
         ),
         bottomNavigationBar: NavigationBar(
-          onDestinationSelected: (int index) {
+          onDestinationSelected: (int index) async {
             navBody(index);
+            CounterStorage().readCounter().then((value) {
+              setState(() {
+                jsonString = value as String;
+              });
+            });
           },
           selectedIndex: currentPageIndex,
           destinations: const <Widget>[
@@ -126,7 +134,7 @@ class _MyAppState extends State<MyApp> {
             ),
             NavigationDestination(
               icon: Icon(Icons.fitness_center_outlined),
-              label: 'Trainig',
+              label: 'Séances',
             ),
             NavigationDestination(
               icon: Icon(Icons.fastfood),

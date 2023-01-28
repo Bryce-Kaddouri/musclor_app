@@ -1,3 +1,4 @@
+import 'package:appmuscuui/models/allSeances.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -7,12 +8,14 @@ class TrainigList extends StatefulWidget {
   String title;
   String subTitle;
   int index;
+  List? exos;
 
   TrainigList({
     super.key,
     required this.title,
     required this.subTitle,
     required this.index,
+    this.exos,
   });
 
   @override
@@ -20,36 +23,19 @@ class TrainigList extends StatefulWidget {
 }
 
 class _TrainigListState extends State<TrainigList> {
-  Future<String> get _localPath async {
-    final directory = await getApplicationDocumentsDirectory();
+  get sessions => null;
 
-    return directory.path;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('flutter $path/counter.json');
-  }
-
-  Future<int> readCounter() async {
-    try {
-      final file = await _localFile;
-
-      // Read the file
-      final contents = await file.readAsString();
-
-      return int.parse(contents);
-    } catch (e) {
-      // If encountering an error, return 0
-      return 0;
-    }
-  }
-
-  Future<File> writeCounter(int counter) async {
-    final file = await _localFile;
-
-    // Write the file
-    return file.writeAsString('$counter');
+  // function to display exos in a list
+  Widget _buildExosList() {
+    return ListView.builder(
+      itemCount: widget.exos!.length,
+      itemBuilder: (context, index) {
+        print('exos: ${widget.exos![index]}');
+        return ListTile(
+          title: Text(widget.exos![index]),
+        );
+      },
+    );
   }
 
   @override
@@ -69,27 +55,74 @@ class _TrainigListState extends State<TrainigList> {
       ),
       child: ListTile(
         // if index == 2 contentPadding: EdgeInsets.only(left: 100),
-        title: const Text(
-          'Séance Pectoraux',
-          style: TextStyle(
+        title: Text(
+          widget.title,
+          style: const TextStyle(
             fontSize: 20,
             color: Colors.black,
           ),
           textAlign: TextAlign.left,
-          strutStyle: StrutStyle(
+          strutStyle: const StrutStyle(
             forceStrutHeight: true,
             height: 1.5,
           ),
         ),
 
-        subtitle: const Text('premiere version de la seance de pectoraux'),
+        subtitle: Text(widget.subTitle,
+            style: const TextStyle(fontSize: 15, color: Colors.black54)),
         leading: CircleAvatar(
-          child: Text('${widget.index}'),
+          child: Text('${widget.index + 1}'),
         ),
         trailing:
             // icon 3 points
             PopupMenuButton(
           onSelected: (String value) {
+            if (value == 'info') {
+              // show info
+            } else if (value == 'edit') {
+              // edit
+            } else if (value == 'delete') {
+              print('delete');
+              print(widget.index);
+
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Supprimer la séance'),
+                    content: const Text(
+                        'Voulez-vous vraiment supprimer cette séance ?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          print('annuler');
+                        },
+                        child: const Text('Annuler'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          print('supprimer');
+                          // setState(() {
+                          //   // supprimer seance de la var session dans Training
+                          //   sessions.removeAt(widget.index);
+                          // });
+                        },
+                        child: const Text('Supprimer'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              // supprimer la séance de la listview
+
+              // saveToFile(allTasks);
+
+              // showSnackBar(context, 'Séance supprimée');
+
+            }
+
             print(value);
           },
           icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -128,6 +161,9 @@ class _TrainigListState extends State<TrainigList> {
           },
         ),
         onTap: () async {
+          //
+          print(widget.index);
+
           // Map project = allTasks[index];
           // String name = project['name'];
           // print(project);
@@ -141,68 +177,91 @@ class _TrainigListState extends State<TrainigList> {
 
               bool trainingisStarted = false;
               // task page for a project
-              return Scaffold(
-                appBar: AppBar(title: const Text('Training n° x')),
-                body: Center(
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          // container to start the training (start button) //  si le training est deja commencé, afficher le temps restant et le bouton pause (pause button) // si le training est en pause, afficher le temps restant et le bouton reprendre (resume button) // si le training est fini, afficher le temps total et le bouton recommencer (restart button)
-
-                          Container(
-                            child: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Text(
-                                    "Temps restant :",
-                                    style: TextStyle(fontSize: 30),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: const Text(
-                                    "02:00:00",
-                                    style: TextStyle(fontSize: 30),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  child: IconButton(
-                                    icon: Icon(trainingisStarted
-                                        // ignore: dead_code
-                                        ? Icons.pause
-                                        : Icons.play_arrow),
-                                    onPressed: () {
-                                      print('play');
-                                      trainingisStarted = true;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            child: const Text(
-                              "Titre du projet :",
-                              style: TextStyle(fontSize: 30),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // const MyStatefulWidget(),
-                    ],
-                  ),
-                ),
+              return DetailTraining(
+                index: widget.index,
+                title: widget.title,
               );
             }),
           );
         },
+      ),
+    );
+  }
+}
+
+class DetailTraining extends StatefulWidget {
+  int index;
+  String title;
+  List? exos;
+  DetailTraining({super.key, required this.index, required this.title});
+
+  @override
+  State<DetailTraining> createState() => _DetailTrainingState();
+}
+
+class _DetailTrainingState extends State<DetailTraining> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Training n° ${widget.index + 1}')),
+      body: Center(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                // container to start the training (start button) //  si le training est deja commencé, afficher le temps restant et le bouton pause (pause button) // si le training est en pause, afficher le temps restant et le bouton reprendre (resume button) // si le training est fini, afficher le temps total et le bouton recommencer (restart button)
+                Container(
+                  child: Text(
+                    widget.title,
+                    style: const TextStyle(fontSize: 30),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const Text(
+                          "Temps restant :",
+                          style: TextStyle(fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: const Text(
+                          "02:00:00",
+                          style: TextStyle(fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: IconButton(
+                          icon: const Icon(Icons.play_arrow),
+                          onPressed: () {
+                            print('play');
+                            // trainingisStarted = true;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: const Text(
+                    "Titre du projet :",
+                    style: TextStyle(fontSize: 30),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+            // const MyStatefulWidget(),
+          ],
+        ),
       ),
     );
   }

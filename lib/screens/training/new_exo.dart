@@ -1,42 +1,50 @@
-import 'package:appmuscuui/screens/home/home.dart';
-import 'package:appmuscuui/screens/training/new_exo.dart';
-import 'package:appmuscuui/screens/training/training.dart';
 import 'package:flutter/material.dart';
-import 'package:appmuscuui/services/service.dart';
-import 'package:appmuscuui/utils/snackbar.dart';
 
-class NewTrainig extends StatefulWidget {
-  const NewTrainig({super.key});
+class AjouterExercice extends StatefulWidget {
+  final String titre;
+  final int index;
+
+  const AjouterExercice({
+    super.key,
+    required this.titre,
+    required this.index,
+  });
 
   @override
-  State<NewTrainig> createState() => _NewTrainigState();
+  State<AjouterExercice> createState() => _AjouterExerciceState();
 }
 
-class _NewTrainigState extends State<NewTrainig> {
+class _AjouterExerciceState extends State<AjouterExercice> {
   final _formKey = GlobalKey<FormState>();
-  // controller pour les champs de saisie de texte (TextFormField)
   final titreController = TextEditingController();
-  final descriptionController = TextEditingController();
-  // valeur par défaut nb de séries
-  String nbSeries = '1';
+  final poidsController = TextEditingController();
+  final nbRepetController = TextEditingController();
+  final tempsController = TextEditingController();
+
+  // // etat de lexercice
+  // bool isDone = false;
+  // // final imageController = TextEditingController();
+  // // final videoController = TextEditingController();
+  // final nbSeriesController = TextEditingController();
+  // final nbRepetitionsController = TextEditingController();
+  // final tempsReposController = TextEditingController();
+  // final tempsReposSeriesController = TextEditingController();
+  // final tempsReposExerciceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Container(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(child: Text('Ajouter un exercice')),
+      ),
+      body: Container(
         color: Colors.white24,
         alignment: Alignment.center,
         child: Column(
           children: [
-            const Text(
-              'Nouvelle séance',
-              style: TextStyle(
+            Text(
+              'Ajouter un exercice à la séance ${widget.titre} (n° ${widget.index + 1})})',
+              style: const TextStyle(
                 fontSize: 30,
                 color: Colors.white,
               ),
@@ -49,13 +57,11 @@ class _NewTrainigState extends State<NewTrainig> {
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               padding: const EdgeInsets.all(20),
               child: Form(
-                // onWillPop: () async {
-                //   return true;
-                // },
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    // titre de l'exercice
                     TextFormField(
                       style: const TextStyle(
                         fontSize: 20,
@@ -64,7 +70,7 @@ class _NewTrainigState extends State<NewTrainig> {
                       controller: titreController,
                       decoration: const InputDecoration(
                         fillColor: Color.fromRGBO(224, 224, 224, 1),
-                        hintText: 'Saisir le titre de la séance',
+                        hintText: 'Saisir le titre de l\'exercice',
                         labelText: 'Titre *',
                         labelStyle: TextStyle(
                           fontSize: 20,
@@ -96,23 +102,24 @@ class _NewTrainigState extends State<NewTrainig> {
                     const SizedBox(
                       height: 20,
                     ),
+                    // nombre de séries
                     TextFormField(
-                      minLines: 2,
-                      maxLines: 5,
                       style: const TextStyle(
                         fontSize: 20,
                         color: Colors.black,
                       ),
-                      controller: descriptionController,
+                      controller: nbRepetController,
                       decoration: const InputDecoration(
-                        labelText: 'Description *',
+                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                        hintText: 'Saisir le nombre de séries',
+                        labelText: 'Nombre de séries *',
                         labelStyle: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
                         helperStyle: TextStyle(
                           fontSize: 15,
-                          color: Color.fromRGBO(158, 158, 158, 1),
+                          color: Colors.black,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -124,10 +131,11 @@ class _NewTrainigState extends State<NewTrainig> {
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
+                        //bordure du champ de saisie grisée
                       ),
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return 'Veuillez saisir une description';
+                          return 'Veulliez saisir un nombre de séries';
                         }
                         return null;
                       },
@@ -135,26 +143,90 @@ class _NewTrainigState extends State<NewTrainig> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // info pour dire que les exercice seront a ajouter dans la séance en cliquant sur le bouton ajouter exercice (voir plus bas)
-                    Row(children: const [
-                      Icon(
-                        Icons.info_outline,
+
+                    // poids de l'exercice
+                    TextFormField(
+                      style: const TextStyle(
+                        fontSize: 20,
                         color: Colors.black,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Flexible(
-                        child: Text(
-                          'Les exercices seront ajoutés dans la séance en cliquant sur le bouton "Ajouter un exercice" une fois la séance créée',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black,
-                          ),
+                      controller: poidsController,
+                      decoration: const InputDecoration(
+                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                        hintText: 'Saisir le poids de l\'exercice',
+                        labelText: 'Poids *',
+                        labelStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
                         ),
-                      )
-                    ]),
+                        helperStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        //bordure du champ de saisie grisée
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veulliez saisir un poids';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    // durée de l'exercice
+                    TextFormField(
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                      controller: tempsController,
+                      decoration: const InputDecoration(
+                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                        hintText: 'Saisir la durée de l\'exercice',
+                        labelText: 'Durée *',
+                        labelStyle: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                        ),
+                        helperStyle: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide:
+                              BorderSide(color: Colors.grey, width: 1.0),
+                        ),
+                        //bordure du champ de saisie grisée
+                      ),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Veulliez saisir une durée';
+                        }
+                        return null;
+                      },
+                    ),
 
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -172,7 +244,9 @@ class _NewTrainigState extends State<NewTrainig> {
                             onPressed: () {
                               setState(() {
                                 titreController.clear();
-                                descriptionController.clear();
+                                poidsController.clear();
+                                tempsController.clear();
+                                nbRepetController.clear();
                               });
                             },
                             child: Row(
@@ -200,23 +274,35 @@ class _NewTrainigState extends State<NewTrainig> {
                               // Validate will return true if the form is valid, or false if
                               // the form is invalid.
                               if (_formKey.currentState!.validate()) {
-                                // print('titre : ${titreController.text}');
+                                print('titre : ${titreController.text}');
+                                print('poids : ${poidsController.text}');
+                                print('temps : ${tempsController.text}');
+                                print('nbRepet : ${nbRepetController.text}');
+
                                 // print(
                                 //     'description : ${descriptionController.text}');
                                 // Process data.
-                                CounterStorage().writeJson(titreController.text,
-                                    descriptionController.text, List.empty());
+                                // CounterStorage().writeJson(titreController.text,
+                                //     descriptionController.text, List.empty());
 
                                 // reset les champs de saisie
                                 setState(() {
                                   titreController.clear();
-                                  descriptionController.clear();
+                                  poidsController.clear();
+                                  tempsController.clear();
+                                  nbRepetController.clear();
                                 });
 
-                                // affiche un message de confirmation
-                                shoSuccessMessage(
-                                    context, 'Séance enregistrée');
-                                // affiche le titre de la séance dans la page d'accueil
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => AjouterExercice(
+                                //         titre: titreController.text,
+                                //         titre: poidsController.text,
+                                //         tempsController.text,
+                                //         nbRepetController.text),
+                                //   ),
+                                // );
 
                                 // print(titreController.text);
                               }
