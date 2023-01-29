@@ -1,5 +1,6 @@
 import 'package:appmuscuui/models/allSeances.dart';
 import 'package:appmuscuui/services/service.dart';
+import 'package:appmuscuui/utils/snackbar.dart';
 import 'package:flutter/material.dart';
 
 class AjouterExercice extends StatefulWidget {
@@ -287,20 +288,13 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                                   duree: tempsController.text,
                                 );
 
-                                // lire le fichier json et ajouter le nouvel exercice à la liste des exercices en fonction de lindex de la seance7
-                                // var exos = CounterStorage().readJson();
-                                // exos[widget.index - 1].add(newExo);
-                                // CounterStorage().
-
-                                CounterStorage().addExoTest();
-
-                                // print('newExo : ${newExo.titre}');
-
-                                // print(
-                                //     'description : ${descriptionController.text}');
-                                // Process data.
-                                // CounterStorage().writeJson(titreController.text,
-                                //     descriptionController.text, List.empty());
+                                CounterStorage().addToJSONFile(
+                                  titreController.text,
+                                  poidsController.text,
+                                  tempsController.text,
+                                  nbRepetController.text,
+                                  '${widget.index}',
+                                );
 
                                 // reset les champs de saisie
                                 setState(() {
@@ -310,18 +304,8 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                                   nbRepetController.clear();
                                 });
 
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => AjouterExercice(
-                                //         titre: titreController.text,
-                                //         titre: poidsController.text,
-                                //         tempsController.text,
-                                //         nbRepetController.text),
-                                //   ),
-                                // );
-
-                                // print(titreController.text);
+                                shoSuccessMessage(
+                                    context, 'Séance enregistrée');
                               }
                             },
                             child: Row(

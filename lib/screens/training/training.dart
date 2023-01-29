@@ -15,7 +15,6 @@ class Training extends StatefulWidget {
 
 class _TrainingState extends State<Training> {
   List sessions = [];
-  List exos = [];
 
   @override
   void initState() {
@@ -27,12 +26,6 @@ class _TrainingState extends State<Training> {
         // object json to list;
         sessions = value as List;
         // pour chaque session on recupere les exos
-        sessions.forEach((element) {
-          exos.add(element['exos']);
-          // print('Exos: ${exos.toString()}');
-        });
-        print('sessions: $sessions');
-        print('exos: $exos');
       });
     });
   }
@@ -59,7 +52,7 @@ class _TrainingState extends State<Training> {
                   title: sessions[index]['titre'],
                   subTitle: sessions[index]['description'],
                   index: index,
-                  exos: exos[index],
+                  // exos: exos[index],
                 ),
               ],
             );
