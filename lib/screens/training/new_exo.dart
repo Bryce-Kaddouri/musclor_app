@@ -1,3 +1,5 @@
+import 'package:appmuscuui/models/allSeances.dart';
+import 'package:appmuscuui/services/service.dart';
 import 'package:flutter/material.dart';
 
 class AjouterExercice extends StatefulWidget {
@@ -43,7 +45,7 @@ class _AjouterExerciceState extends State<AjouterExercice> {
         child: Column(
           children: [
             Text(
-              'Ajouter un exercice à la séance ${widget.titre} (n° ${widget.index + 1})})',
+              widget.titre,
               style: const TextStyle(
                 fontSize: 30,
                 color: Colors.white,
@@ -68,24 +70,30 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                         color: Colors.black,
                       ),
                       controller: titreController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            titreController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                        fillColor: const Color.fromRGBO(224, 224, 224, 1),
                         hintText: 'Saisir le titre de l\'exercice',
                         labelText: 'Titre *',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -109,24 +117,31 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                         color: Colors.black,
                       ),
                       controller: nbRepetController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromRGBO(224, 224, 224, 1),
-                        hintText: 'Saisir le nombre de séries',
-                        labelText: 'Nombre de séries *',
-                        labelStyle: TextStyle(
+                      decoration: InputDecoration(
+                        // sufixIcon croix pour effacer le champ
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            nbRepetController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                        fillColor: const Color.fromRGBO(224, 224, 224, 1),
+                        hintText: 'Saisir le nombre de répétitions',
+                        labelText: 'Nombre de répétitions*',
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -151,24 +166,30 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                         color: Colors.black,
                       ),
                       controller: poidsController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            nbRepetController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                        fillColor: const Color.fromRGBO(224, 224, 224, 1),
                         hintText: 'Saisir le poids de l\'exercice',
-                        labelText: 'Poids *',
-                        labelStyle: TextStyle(
+                        labelText: 'Poids (Kg)*',
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -192,24 +213,30 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                         color: Colors.black,
                       ),
                       controller: tempsController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            nbRepetController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                        fillColor: const Color.fromRGBO(224, 224, 224, 1),
                         hintText: 'Saisir la durée de l\'exercice',
-                        labelText: 'Durée *',
-                        labelStyle: TextStyle(
+                        labelText: 'Durée (sec)*',
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -232,45 +259,19 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            vertical: 16.0,
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              minimumSize: Size(90, 50),
-                              maximumSize: Size(
-                                  MediaQuery.of(context).size.width * 0.35, 50),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                titreController.clear();
-                                poidsController.clear();
-                                tempsController.clear();
-                                nbRepetController.clear();
-                              });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.cancel, color: Colors.white),
-                                Text('Annuler',
-                                    style: TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40.0),
+                              vertical: 40.0, horizontal: 10),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green,
                               padding: const EdgeInsets.symmetric(
                                   vertical: 18, horizontal: 5),
-                              minimumSize: Size(90, 50),
+                              minimumSize: const Size(90, 50),
                               maximumSize: Size(
                                   MediaQuery.of(context).size.width * 0.35, 50),
                             ),
                             onPressed: () {
+                              // dispose le clavier
+                              FocusScope.of(context).unfocus();
                               // Validate will return true if the form is valid, or false if
                               // the form is invalid.
                               if (_formKey.currentState!.validate()) {
@@ -278,6 +279,22 @@ class _AjouterExerciceState extends State<AjouterExercice> {
                                 print('poids : ${poidsController.text}');
                                 print('temps : ${tempsController.text}');
                                 print('nbRepet : ${nbRepetController.text}');
+
+                                var newExo = Exo(
+                                  titre: titreController.text,
+                                  poids: poidsController.text,
+                                  nbRep: nbRepetController.text,
+                                  duree: tempsController.text,
+                                );
+
+                                // lire le fichier json et ajouter le nouvel exercice à la liste des exercices en fonction de lindex de la seance7
+                                // var exos = CounterStorage().readJson();
+                                // exos[widget.index - 1].add(newExo);
+                                // CounterStorage().
+
+                                CounterStorage().addExoTest();
+
+                                // print('newExo : ${newExo.titre}');
 
                                 // print(
                                 //     'description : ${descriptionController.text}');

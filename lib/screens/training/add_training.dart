@@ -64,24 +64,30 @@ class _NewTrainigState extends State<NewTrainig> {
                         color: Colors.black,
                       ),
                       controller: titreController,
-                      decoration: const InputDecoration(
-                        fillColor: Color.fromRGBO(224, 224, 224, 1),
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            titreController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
+                        fillColor: const Color.fromRGBO(224, 224, 224, 1),
                         hintText: 'Saisir le titre de la séance',
                         labelText: 'Titre *',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Colors.black,
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -106,22 +112,28 @@ class _NewTrainigState extends State<NewTrainig> {
                         color: Colors.black,
                       ),
                       controller: descriptionController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            descriptionController.clear();
+                          },
+                          icon: const Icon(Icons.clear, color: Colors.black),
+                        ),
                         labelText: 'Description *',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                         ),
-                        helperStyle: TextStyle(
+                        helperStyle: const TextStyle(
                           fontSize: 15,
                           color: Color.fromRGBO(158, 158, 158, 1),
                         ),
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        enabledBorder: OutlineInputBorder(
+                        enabledBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide:
                               BorderSide(color: Colors.grey, width: 1.0),
@@ -160,35 +172,6 @@ class _NewTrainigState extends State<NewTrainig> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16.0,
-                          ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
-                              minimumSize: Size(90, 50),
-                              maximumSize: Size(
-                                  MediaQuery.of(context).size.width * 0.35, 50),
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                titreController.clear();
-                                descriptionController.clear();
-                                // dismiss keyboard when form is submitted
-                                FocusScope.of(context).unfocus();
-                              });
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Icon(Icons.cancel, color: Colors.white),
-                                Text('Annuler',
-                                    style: TextStyle(color: Colors.white)),
-                              ],
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 40.0),
                           child: ElevatedButton(

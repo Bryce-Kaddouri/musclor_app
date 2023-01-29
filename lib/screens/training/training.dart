@@ -28,8 +28,8 @@ class _TrainingState extends State<Training> {
         sessions = value as List;
         // pour chaque session on recupere les exos
         sessions.forEach((element) {
-          exos = element['exos'];
-          print('Exos: ${exos.toString()}');
+          exos.add(element['exos']);
+          // print('Exos: ${exos.toString()}');
         });
         print('sessions: $sessions');
         print('exos: $exos');
@@ -59,7 +59,7 @@ class _TrainingState extends State<Training> {
                   title: sessions[index]['titre'],
                   subTitle: sessions[index]['description'],
                   index: index,
-                  // exos: exos[index],
+                  exos: exos[index],
                 ),
               ],
             );

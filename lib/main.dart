@@ -83,10 +83,19 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          // bouton de retour
+          leading: indexBody == 0
+              ? Container()
+              : IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    navBody(0);
+                  },
+                ),
           toolbarHeight: 60,
           title: Container(
             alignment: Alignment.center,
-            margin: const EdgeInsets.only(left: 100),
+            // margin: const EdgeInsets.only(left: 100),
             child: Text(
               _titles[indexBody],
             ),

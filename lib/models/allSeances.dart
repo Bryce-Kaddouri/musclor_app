@@ -1,7 +1,7 @@
 class AllSeances {
   String? titre;
   String? description;
-  List<Exos>? exos;
+  List<Exo>? exos;
 
   AllSeances({this.titre, this.description, this.exos});
 
@@ -9,9 +9,9 @@ class AllSeances {
     titre = json['titre'];
     description = json['description'];
     if (json['exos'] != null) {
-      exos = <Exos>[];
+      exos = <Exo>[];
       json['exos'].forEach((v) {
-        exos!.add(new Exos.fromJson(v));
+        exos!.add(new Exo.fromJson(v));
       });
     }
   }
@@ -30,21 +30,27 @@ class AllSeances {
 
 }
 
-class Exos {
+class Exo {
   String? titre;
-  String? description;
+  String? nbRep;
+  String? poids;
+  String? duree;
 
-  Exos({this.titre, this.description});
+  Exo({required this.titre, required this.nbRep, this.poids, this.duree});
 
-  Exos.fromJson(Map<String, dynamic> json) {
+  Exo.fromJson(Map<String, dynamic> json) {
     titre = json['titre'];
-    description = json['description'];
+    nbRep = json['nbRep'];
+    poids = json['poids'];
+    duree = json['duree'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['titre'] = this.titre;
-    data['description'] = this.description;
+    data['titre'] = titre;
+    data['nbRep'] = nbRep;
+    data['poids'] = poids;
+    data['duree'] = duree;
     return data;
   }
 }
